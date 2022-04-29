@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+    <title>Chat Room</title>
+</head>
+<body>
+    <script>
+
+        const socket = io('http://localhost:3001')
+
+        socket.on('connection')
+
+        // receive emitted message 'data' from the server and insert it to the <h1> tag
+        socket.on('message',(data)=>{
+            document.querySelector('h1').innerHTML = data
+        })
+
+        const sendMessage = ()=>{
+            const messageInput = document.querySelector(".message")
+            const message = messageInput.value
+            
+            //if 'msgSent' (1st arg) is emitted, then send 2nd arg to the server (index.js)
+            socket.emit('msgSent', message)
+        }
+
+    </script>
+
+    <h1></h1>
+    <input type="text" class="message">
+    <button onclick="sendMessage()">Send</button>
+
+</body>
+</html>
